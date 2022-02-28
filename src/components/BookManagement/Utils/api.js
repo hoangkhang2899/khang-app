@@ -16,11 +16,18 @@ function getWithAuth(endpoint, opt = {}) {
     ...opt,
   });
 }
-
 function postWithAuth(endpoint, data, opt = {}) {
   const token = localStorage.getItem("token");
   return axios.post(url + endpoint, data, {
     headers: { Authorization: "Bearer " + token },
+    ...opt,
+  });
+}
+function deleteWithAuth(endpoint, data = {}, opt = {}) {
+  const token = localStorage.getItem("token");
+  return axios.delete(url + endpoint, {
+    headers: { Authorization: "Bearer " + token },
+    data: { ...data },
     ...opt,
   });
 }
@@ -41,5 +48,5 @@ async function isAdmin(opt = {}) {
     });
 }
 
-const api = { get, post, getWithAuth, postWithAuth, isAdmin };
+const api = { get, post, getWithAuth, postWithAuth, isAdmin, deleteWithAuth };
 export default api;

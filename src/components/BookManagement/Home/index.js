@@ -25,7 +25,7 @@ export default function Home() {
             to="cart"
             className="btn btn-sm btn-primary mx-1"
             onClick={() => {
-              dispatch(addItem({ item: e.book, amount: 1 }));
+              dispatch(addItem({ id: e.bookID, item: e.book, amount: 1 }));
             }}
           >
             Buy Now
@@ -34,7 +34,7 @@ export default function Home() {
             type="button"
             className="btn btn-sm btn-secondary mx-1"
             onClick={() => {
-              dispatch(addItem({ item: e.book, amount: 1 }));
+              dispatch(addItem({ id: e.bookID, item: e.book, amount: 1 }));
             }}
           >
             Add to cart

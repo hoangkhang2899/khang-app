@@ -10,6 +10,7 @@ import Register from "./Register";
 import Admin from "./Admin";
 import NoMatch from "../NoMatch";
 import Cart from "./Cart";
+import Profile from "./Profile";
 
 export default function BookManagement() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export default function BookManagement() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="user" element={<Profile />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="admin/*" element={<Admin />} />

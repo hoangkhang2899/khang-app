@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
-import { setCategory } from "../bookManagementSlice";
+import { setCategory, setOrder } from "../bookManagementSlice";
 import api from "../Utils/api";
 import AdminPage from "./AdminPage";
 import Books from "./Books";
@@ -15,17 +15,19 @@ export default function Admin() {
   useEffect(() => {
     const controller = new AbortController();
     const controller1 = new AbortController();
+    const category = api.get("categories", { signal: controller1.signal });
+    const order = api.getWithAuth("admin/orders");
     api
       .getWithAuth("admin", { signal: controller.signal })
+      .then(() => Promise.all([category, order]))
+      .then(([resCategory, resOrder]) => {
+        dispatch(setCategory(resCategory.data));
+        dispatch(setOrder(resOrder.data));
+      })
       .catch((err) => {
         console.log(err);
         navigate("/book");
       });
-    api.get("categories", { signal: controller1.signal }).then((res) => {
-      if (res.status === 200) {
-        dispatch(setCategory(res.data));
-      }
-    });
     return () => {
       controller.abort();
       controller1.abort();

@@ -36,11 +36,18 @@ export default function Header() {
               </NavLink>
             </li>
           ) : role === "user" ? (
-            <li className="nav-item">
-              <NavLink to="cart" className="nav-link">
-                Cart
-              </NavLink>
-            </li>
+            <>
+              <li className="nav-item">
+                <NavLink to="cart" className="nav-link">
+                  Cart
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="user" className="nav-link">
+                  Profile
+                </NavLink>
+              </li>
+            </>
           ) : null}
           {isLogin ? (
             <li className="nav-item">

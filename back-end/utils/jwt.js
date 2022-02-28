@@ -11,7 +11,7 @@ module.exports = {
     });
   },
   verify: (token, callback = (decoded) => {}) => {
-    token = token.replace("Bearer ", "");
+    token = token?.replace("Bearer ", "");
     jwt.verify(token, secretKey, (err, decoded) => {
       if (decoded) {
         const name = Object.keys(decoded)[0];

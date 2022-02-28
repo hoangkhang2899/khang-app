@@ -38,14 +38,25 @@ function findDocuments(collection, obj, callback = () => {}) {
       });
   });
 }
+function deleteDocument(collection, obj, callback = () => {}) {
+  MongoClient.connect(url, (err, db) => {
+    if (err) throw err;
+    const dbo = db.db(dataname);
+    dbo.collection(collection).deleteOne(obj, (error, result) => {
+      if (error) throw error;
+      callback(result);
+      db.close();
+    });
+  });
+}
 function getLastestBookID(string, callback = () => {}) {
   MongoClient.connect(url, (err, db) => {
     if (err) throw err;
     const dbo = db.db(dataname);
     dbo
       .collection("Books")
-      .find({bookID: new RegExp(string)})
-      .sort({bookID: -1})
+      .find({ bookID: new RegExp(string) })
+      .sort({ bookID: -1 })
       .limit(1)
       .toArray((error, res) => {
         if (error) throw error;
@@ -54,5 +65,24 @@ function getLastestBookID(string, callback = () => {}) {
       });
   });
 }
+async function getLastestOrderID() {
+  const db = await MongoClient.connect(url);
+  const dbo = db.db(dataname);
+  try {
+    const result = await dbo.collection("Orders").find({}).sort({ orderID: -1 }).limit(1).toArray();
+    return result[0]?.orderID;
+  } catch (err) {
+    console.error(err);
+  } finally {
+    db.close();
+  }
+}
 
-module.exports = { insertDocument, findDocument, findDocuments, getLastestBookID };
+module.exports = {
+  insertDocument,
+  findDocument,
+  findDocuments,
+  getLastestBookID,
+  getLastestOrderID,
+  deleteDocument,
+};

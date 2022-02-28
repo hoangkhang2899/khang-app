@@ -6,6 +6,8 @@ const initialState = {
   role: "",
   books: [],
   categories: [],
+  orders: [],
+  orderHistory: [],
 };
 
 export const bookManagementSlice = createSlice({
@@ -26,14 +28,31 @@ export const bookManagementSlice = createSlice({
     addCategory(state, action) {
       state.categories = [...state.categories, action.payload];
     },
+    setOrder(state, action) {
+      state.orders = action.payload;
+    },
+    deleteOrder(state, action) {
+      state.orders = state.orders.filter((e, i) => i !== action.payload);
+    },
     addBook(state, action) {
       state.books = [...state.books, action.payload];
+    },
+    setOrderHistory(state, action) {
+      state.orderHistory = action.payload;
     },
   },
 });
 
-export const { setLogin, setBook, setCategory, addBook, addCategory } =
-  bookManagementSlice.actions;
+export const {
+  setLogin,
+  setBook,
+  setCategory,
+  addBook,
+  addCategory,
+  setOrder,
+  deleteOrder,
+  setOrderHistory,
+} = bookManagementSlice.actions;
 
 export const selectBookManagement = (state) => state.bookManagement;
 
